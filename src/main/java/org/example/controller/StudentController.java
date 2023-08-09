@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -17,6 +18,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.lang.model.element.Name;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -48,6 +52,21 @@ public class StudentController {
     public ResponseEntity<StudentResponse> getStudent(@PathVariable @Valid Long id) throws Exception {
 
         return ResponseEntity.ok(studentService.find(id));
+    }
+
+    @Operation(description = "search on students")
+    @ApiResponses(value = {@ApiResponse(description = "successful", responseCode = "200"),
+            @ApiResponse(description = "Bad Request", responseCode = "400")})
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<StudentResponse>> search(@RequestParam(name = "id", required = false) Long id,
+                                                        @RequestParam(name = "name", required = false) String name,
+                                                        @RequestParam(name = "age", required = false) Integer age,
+                                                        @RequestParam(name = "page", required = false) Integer page,
+                                                        @RequestParam(name = "pageSize", required = false) Integer pageSize
+                                                        ) throws Exception {
+
+        return ResponseEntity.ok(studentService.search(id, name, age, null, page, pageSize));
     }
 
     @PostMapping("/create2")
