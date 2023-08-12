@@ -44,6 +44,13 @@ public class StudentService {
         return response;
     }
 
+    public void delete(Long id) {
+        StudentEntity entity = new StudentEntity();
+        Optional<StudentEntity> studentEntity = studentRepository.findById(id);
+        studentEntity.orElseThrow(() -> new NotFoundException("Student not found"));
+        studentRepository.delete(studentEntity.get());
+    }
+
     public List<StudentResponse> findByName(String name) {
         StudentEntity entity = new StudentEntity();
         Optional<List<StudentEntity>> studentEntity = studentRepository.findByName(name);

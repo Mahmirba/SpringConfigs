@@ -54,6 +54,16 @@ public class StudentController {
         return ResponseEntity.ok(studentService.find(id));
     }
 
+    @Operation(description = "delete student")
+    @ApiResponses(value = {@ApiResponse(description = "successful", responseCode = "200"),
+            @ApiResponse(description = "Bad Request", responseCode = "400")})
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable @Valid Long id) throws Exception {
+
+         studentService.delete(id);
+    }
+
     @Operation(description = "search on students")
     @ApiResponses(value = {@ApiResponse(description = "successful", responseCode = "200"),
             @ApiResponse(description = "Bad Request", responseCode = "400")})
