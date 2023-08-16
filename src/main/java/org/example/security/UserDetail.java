@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDetail {
-    private UserDetails userDetails;
+    private String username;
     private Long corporateId;
     private Long userId;
     private String clientIp;

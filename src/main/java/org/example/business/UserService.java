@@ -1,6 +1,7 @@
 package org.example.business;
 
 import lombok.AllArgsConstructor;
+import org.example.exceptions.NotFoundException;
 import org.example.model.UserRequest;
 import org.example.model.UserResponse;
 import org.example.repo.UserEntity;
@@ -27,5 +28,10 @@ public class UserService {
         UserResponse response = new UserResponse();
         BeanUtils.copyProperties(entity, response);
         return response;
+    }
+
+    public UserEntity findByUsername(String username) {
+
+        return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
     }
 }

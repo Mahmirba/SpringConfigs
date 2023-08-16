@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.example.business.StudentService;
@@ -15,6 +16,7 @@ import org.example.model.StudentResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.HttpRequestHandler;
 import org.springframework.web.bind.annotation.*;
 
 import javax.lang.model.element.Name;
@@ -28,6 +30,7 @@ import java.util.List;
 public class StudentController {
 
     private final StudentService studentService;
+    private final HttpServletRequest httpServletRequest;
 
     @GetMapping("/hello")
     public String print() {
@@ -40,7 +43,6 @@ public class StudentController {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<StudentResponse> create(@RequestBody @Valid StudentRequest request) throws Exception {
-
         return ResponseEntity.ok(studentService.create(request));
     }
 
@@ -67,7 +69,7 @@ public class StudentController {
     @Operation(description = "search on students")
     @ApiResponses(value = {@ApiResponse(description = "successful", responseCode = "200"),
             @ApiResponse(description = "Bad Request", responseCode = "400")})
-    @GetMapping("/search")
+        @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<StudentResponse>> search(@RequestParam(name = "id", required = false) Long id,
                                                         @RequestParam(name = "name", required = false) String name,
